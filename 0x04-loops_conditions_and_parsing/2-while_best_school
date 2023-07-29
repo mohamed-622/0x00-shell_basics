@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#this script displays Best School 10 times.
 count=1
 while (( count <= 10 )); do
     echo "Best School"
