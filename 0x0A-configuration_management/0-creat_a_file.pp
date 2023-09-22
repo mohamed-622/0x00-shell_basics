@@ -1,4 +1,5 @@
 # Create a file in /tmp
+
 file { '/tmp/school':
   ensure  => 'file',      # Ensure it's a regular file
   mode    => '0744',      # Set file permissions to 0744
@@ -6,4 +7,3 @@ file { '/tmp/school':
   group   => 'www-data',  # Set group to www-data
   content => 'I love Puppet',  # Contents of the file
 }
-
