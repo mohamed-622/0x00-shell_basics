@@ -10,22 +10,31 @@ server {
     server_name globalmohamed.tech;
 
     location /redirect_me {
-        return 301 http://google.com;
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
     }
 
     # Additional server configuration...
 }
 EOF
 
-# Create a symbolic link to enable the configuration
-sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
-
-
-if ! pgrep -x "nginx" > /dev/null; then
-    # Start Nginx if it's not already running
-    sudo nginx
-else
-    # Reload Nginx configuration to apply changes
-    sudo nginx -s reload
+# Remove the existing symbolic link if it exists
+if [ -e /etc/nginx/sites-enabled/redirect_me ]; then
+    sudo rm /etc/nginx/sites-enabled/redirect_me
 fi
-echo "Hello World!" | sudo tee /var/www/html/index.html
+
+# Create a symbolic link to enable the configuration
+sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/redirect_me
+
+if [ $? -eq 0 ]; then
+    if ! pgrep -x "nginx" > /dev/null; then
+        # Start Nginx if it's not already running
+        sudo nginx
+    else
+        # Reload Nginx configuration to apply changes
+        sudo nginx -s reload
+    fi
+    # Create a simple "Hello World!" index file
+    echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html
+else
+    echo "Nginx configuration test failed. Please check your configuration."
+fi
