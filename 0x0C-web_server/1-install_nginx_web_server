@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 # Update the package list and install Nginx
+
 sudo apt-get -y update
 sudo apt-get -y install nginx
-if ! pgrep -x "nginx" > /dev/null; then
-    # Start Nginx if it's not already running
-    sudo nginx
-else
-    # Reload Nginx configuration to apply changes
-    sudo nginx -s reload
-fi
+
 echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html
+
+
+old="server_name _;"
+new="server_name _;\n\n\tlocation /redirect_me {\n\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}"
+
+sudo sed -i -e "s|$oldstr|$newstr|" /etc/nginx/sites-enabled/default
+sudo service nginx start
