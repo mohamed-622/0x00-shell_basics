@@ -1,40 +1,14 @@
 #!/usr/bin/env bash
 # Update the package list and install Nginx
+
 sudo apt-get -y update
 sudo apt-get -y install nginx
 
-# Add the Nginx configuration for the redirect
-sudo bash -c 'cat > /etc/nginx/sites-available/redirect_me' << EOF
-server {
-    listen 80;
-    server_name globalmohamed.tech;
+echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html
 
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
 
-    # Additional server configuration...
-}
-EOF
+old="server_name _;"
+new="server_name _;\n\n\tlocation /redirect_me {\n\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}"
 
-# Remove the existing symbolic link if it exists
-if [ -e /etc/nginx/sites-enabled/redirect_me ]; then
-    sudo rm /etc/nginx/sites-enabled/redirect_me
-fi
-
-# Create a symbolic link to enable the configuration
-sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/redirect_me
-
-if nginx -t; then
-    if ! pgrep -x "nginx" > /dev/null; then
-        # Start Nginx if it's not already running
-        sudo nginx
-    else
-        # Reload Nginx configuration to apply changes
-        sudo nginx -s reload
-    fi
-    # Create a simple "Hello World!" index file
-    echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html
-else
-    echo "Nginx configuration test failed. Please check your configuration."
-fi
+sudo sed -i -e "s|$old|$new|" /etc/nginx/sites-enabled/default
+sudo service nginx start
