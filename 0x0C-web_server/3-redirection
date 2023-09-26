@@ -25,7 +25,7 @@ fi
 # Create a symbolic link to enable the configuration
 sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/redirect_me
 
-if [ $? -eq 0 ]; then
+if nginx -t; then
     if ! pgrep -x "nginx" > /dev/null; then
         # Start Nginx if it's not already running
         sudo nginx
