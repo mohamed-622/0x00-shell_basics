@@ -3,12 +3,5 @@
 # Update the package list and install Nginx
 sudo apt update
 sudo apt install -y nginx
-if ! pgrep -x "nginx" > /dev/null; then
-    # Start Nginx if it's not already running
-    sudo nginx
-else
-    # Reload Nginx configuration to apply changes
-    sudo nginx -s reload
-fi
+sudo service nginx start
 echo "Hello World!" | sudo tee /var/www/html/index.html
-
