@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 #add custom HTTP response headers to the HTTP response of the web server.
 
 # Install Nginx
