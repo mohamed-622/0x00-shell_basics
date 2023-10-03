@@ -1,3 +1,15 @@
-#!/usr/bin/env bach
+#!/usr/bin/env bash
+#add custom HTTP response headers to the HTTP response of the web server.
 
+# Install Nginx
+sudo apt update
+sudo apt install -y nginx
 
+# Create a custom Nginx configuration file for the custom header
+echo 'add_header X-Served-By $host;' | sudo tee /etc/nginx/conf.d/custom_headers.conf
+
+# Test the Nginx configuration
+sudo nginx -t
+
+# Reload Nginx to apply the new configuration
+sudo systemctl reload nginx
