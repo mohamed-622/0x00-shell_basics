@@ -1,1 +1,27 @@
-#!/usr/bin/env bach
+#!/usr/bin/env bash
+# Install and configure HAProxy on your lb-01 server.
+
+# Update package list and install HAProxy
+sudo apt-get update -y
+sudo apt-get install -y haproxy
+
+# HAProxy configuration
+haproxy_cfg="/etc/haproxy/haproxy.cfg"
+
+frontend_config="frontend my_frontend
+  bind *:80
+  default_backend alx_backend
+"
+
+backend_config="backend alx_backend
+  balance roundrobin
+  server 367902-web-01 54.236.24.105:80 check
+  server 367902-web-02 34.229.49.43:80 check
+"
+
+# Append configuration to HAProxy config file
+echo -e "$frontend_config" | sudo tee -a "$haproxy_cfg"
+echo -e "$backend_config" | sudo tee -a "$haproxy_cfg"
+
+# Restart HAProxy service
+sudo service haproxy restart
