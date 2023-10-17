@@ -5,7 +5,7 @@ if [ -z "$1" ]; then
     echo "Usage: $0 <password>"
     exit 1
 fi
-# MySQL dump command -temporary file- 
+# MySQL dump command 
 mysqldump --user=root --password="$1" --all-databases > backup.sql
 
 # Get the current date in the format: day-month-year
@@ -13,6 +13,3 @@ current_date=$(date +'%d-%m-%Y')
 
 # Create a tar.gz archive with the format: day-month-year.tar.gz
 tar -czvf "$current_date.tar.gz" backup.sql
-
-# Clean up the temporary backup.sql file
-rm backup.sql
