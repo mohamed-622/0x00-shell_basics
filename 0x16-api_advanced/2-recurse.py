@@ -10,9 +10,8 @@ def recurse(subreddit, hot_list=[], after=None):
     """recurse it!"""
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
     response = requests.get(url,
-                            headers={"User-Agent": "Mozilla/5.0"},
-                            params={"after": after,
-                                    "limit": 100},
+                            headers={"User-Agent": "alx"},
+                            params={"after": after},
                             allow_redirects=False,
                             )
     if response.status_code == 200:
