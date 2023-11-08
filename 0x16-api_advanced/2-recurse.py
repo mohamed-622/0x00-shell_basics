@@ -8,18 +8,22 @@ import requests
 
 def recurse(subreddit, hot_list=[], after=None):
     """recurse it!"""
-    url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
-    headers = {'User-Agent': 'Python3'}
-    params = {'after': after}
-    r = requests.get(url, headers=headers, params=params)
-    if r.status_code == 200:
-        data = r.json()
-        after = data.get('data').get('after')
-        children = data.get('data').get('children')
-        for child in children:
-            hot_list.append(child.get('data').get('title'))
-        if after is not None:
-            recurse(subreddit, hot_list, after)
-        return hot_list
+    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    response = requests.get(url,
+                            headers={"User-Agent": "Mozilla/5.0"},
+                            params={"after": after,
+                                    "limit": 100},
+                            allow_redirects=False,
+                            )
+    if response.status_code == 200:
+        data = response.json()
+        child = data.get('data').get('children')
+        for title in child:
+            hot_list.append(title.get('data').get('title'))
+        after = response.json().get("data").get("after")
+        if after is None:
+            return hot_list
+        else:
+            return recurse(subreddit, hot_list, after)
     else:
         return None
