@@ -1,6 +1,6 @@
 # Postmortem: Website Downtime Resolved
 
-![Website Downtime]([meme_link](https://github.com/mohamed-622/alx-system_engineering-devops/blob/master/0x19-postmortem/meme.jpg))
+![Website Downtime](https://github.com/mohamed-622/alx-system_engineering-devops/blob/master/0x19-postmortem/meme.jpg)
 
 ## Issue Summary
 
